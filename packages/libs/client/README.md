@@ -185,7 +185,7 @@ const unsignedTransaction = Pact.builder
       decimal: '231',
     }),
   ])
-  .setMeta({ chainId: '1', senderAccount: 'k:your-pubkey' })
+  .setMeta({ chainId: '1', senderAccount: 'k:coin-account' })
   .setNetworkId('mainnet01')
   .createTransaction();
 ```
