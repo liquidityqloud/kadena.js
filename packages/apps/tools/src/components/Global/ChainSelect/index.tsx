@@ -11,7 +11,10 @@ export type OnChainSelectChange = (value: ChainwebChainId) => void;
 const ELEMENT_ID = 'select-chain-id';
 
 const ChainSelect: FC<
-  Omit<ISelectProps, 'children' | 'value' | 'onChange' | 'icon' | 'id'> & {
+  Omit<
+    ISelectProps,
+    'children' | 'value' | 'onChange' | 'icon' | 'id' | 'ariaLabel'
+  > & {
     value: ChainwebChainId;
     onChange: OnChainSelectChange;
   }
