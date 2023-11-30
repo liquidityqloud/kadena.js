@@ -89,11 +89,7 @@ const CheckTransactions: FC = () => {
             <Box marginBlockEnd="md" />
             <Grid columns={2}>
               <GridItem>
-                <ChainSelect
-                  onChange={onChainSelectChange}
-                  value={chainID}
-                  ariaLabel="Select Chain ID"
-                />
+                <ChainSelect onChange={onChainSelectChange} value={chainID} />
               </GridItem>
               <GridItem>
                 <AccountNameField

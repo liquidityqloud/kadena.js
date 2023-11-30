@@ -367,11 +367,7 @@ const NewAccountFaucetPage: FC = () => {
                 />
               </div>
               <div className={chainSelectContainerClass}>
-                <ChainSelect
-                  onChange={onChainSelectChange}
-                  value={chainID}
-                  ariaLabel="Select Chain ID"
-                />
+                <ChainSelect onChange={onChainSelectChange} value={chainID} />
               </div>
             </div>
           </Card>
