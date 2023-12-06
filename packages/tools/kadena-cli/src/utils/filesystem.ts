@@ -1,6 +1,16 @@
 import type { PathLike, WriteFileOptions } from 'fs';
-import { accessSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
+import {
+  accessSync,
+  existsSync,
+  promises as fsPromises,
+  mkdirSync,
+  rmSync,
+  writeFileSync,
+} from 'fs';
 import path from 'path';
+
+import chalk from 'chalk';
+import { readdir, rm } from 'fs/promises';
 
 /**
  * Checks if a given path exists.
@@ -45,6 +55,20 @@ export function writeFile(
   writeFileSync(filePath, data, options);
 }
 
+export async function writeFileAsync(
+  filePath: string,
+  data: string | NodeJS.ArrayBufferView,
+  options: WriteFileOptions | undefined,
+): Promise<void> {
+  const dirname = path.dirname(filePath);
+  try {
+    await fsPromises.access(dirname);
+  } catch {
+    await fsPromises.mkdir(dirname, { recursive: true });
+  }
+  await fsPromises.writeFile(filePath, data, options);
+}
+
 /**
  * Removes a file.
  *
@@ -67,5 +91,45 @@ export function removeFile(filePath: string): void {
 export function ensureDirectoryExists(directoryPath: string): void {
   if (!PathExists(directoryPath)) {
     mkdirSync(directoryPath, { recursive: true });
+  }
+}
+
+/**
+ * Asynchronously deletes all files in a given directory, except those with specified extensions.
+ *
+ * @param {string} dirPath - The path of the directory whose files are to be deleted.
+ * @param {string[]} excludeExtensions - An array of file extensions to exclude from deletion.
+ */
+export async function deleteAllFilesInDirAsync(
+  dirPath: string,
+  excludeExtensions: string[] = [],
+): Promise<void> {
+  try {
+    const files = await readdir(dirPath);
+    for (const file of files) {
+      if (
+        !excludeExtensions
+          .map((ext) => ext.toLowerCase())
+          .includes(path.extname(file).toLowerCase())
+      ) {
+        const filePath = path.join(dirPath, file);
+        await rm(filePath);
+      }
+    }
+
+    const exclusionMessage =
+      excludeExtensions.length > 0
+        ? `, except those with specified extensions`
+        : '';
+    console.log(
+      chalk.green(
+        `\nAll files in ${dirPath}${exclusionMessage} have been deleted.\n`,
+      ),
+    );
+  } catch (error) {
+    console.error(
+      chalk.red(`Error during file deletion in ${dirPath}: ${error.message}`),
+    );
+    throw error;
   }
 }

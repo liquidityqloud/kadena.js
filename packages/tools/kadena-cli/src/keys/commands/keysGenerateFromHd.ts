@@ -1,99 +1,52 @@
-import type { EncryptedString } from '@kadena/hd-wallet';
-import { kadenaGenKeypairFromSeed } from '@kadena/hd-wallet';
 import type { Command } from 'commander';
 import debug from 'debug';
 import { createCommand } from '../../utils/createCommand.js';
 import { globalOptions } from '../../utils/globalOptions.js';
-import { displayGeneratedHdKeys } from '../utils/keysDisplay.js';
+import type { IKeysConfig } from '../utils/keySharedKeyGenUtils.js';
+import { generateFromHd } from '../utils/keySharedKeyGenUtils.js';
+import {
+  displayGeneratedPlainKeys,
+  printStoredPlainKeys,
+} from '../utils/keysDisplay.js';
 
-interface IConfig {
-  keyGenFromHdChoice: string;
-  keyPassword: string;
-  keySeed?: string;
-  keyAmount?: number;
-}
-interface IKeyPair {
-  publicKey: string;
-  privateKey?: string;
-  filename?: string;
-}
+import * as storageService from '../utils/storage.js';
 
-const defaultAmount: number = 1;
-
-async function generateFromHd(
-  config: IConfig,
-): Promise<
-  Array<{ publicKey: string; privateKey?: string; filename?: string }>
-> {
-  let keys = [];
-  switch (config.keyGenFromHdChoice) {
-    case 'genPublicKeyFromHDKey':
-      keys = await handlePublicPrivateKeysFromHDKey(config);
-      break;
-    case 'genPublicPrivateKeysFromHDKey':
-      keys = await handlePublicPrivateKeysFromHDKey(config, true);
-      break;
-    default:
-      throw new Error('Invalid choice');
-  }
-  return keys;
-}
-
-async function handlePublicPrivateKeysFromHDKey(
-  config: IConfig,
-  showPrivateKey: boolean = false,
-): Promise<
-  Array<{ publicKey: string; privateKey?: string; filename?: string }>
-> {
-  const keys: Array<IKeyPair> = [];
-
-  if (config.keySeed !== undefined) {
-    const amount =
-      config.keyAmount !== undefined ? config.keyAmount : defaultAmount;
-    for (let index = 0; index < amount; index++) {
-      const [publicKey, encryptedPrivateKey] = await kadenaGenKeypairFromSeed(
-        config.keyPassword,
-        config.keySeed as EncryptedString,
-        index,
-      );
-
-      const keyPair = {
-        publicKey,
-        filename: `key_pair_${index}.yaml`,
-      } as IKeyPair;
-
-      if (showPrivateKey) {
-        keyPair.privateKey = encryptedPrivateKey;
-      }
-
-      keys.push(keyPair);
-    }
-  } else {
-    throw new Error('Seed is required for this option.');
-  }
-  return keys;
-}
+import ora from 'ora';
 
 export const createGenerateFromHdCommand: (
   program: Command,
   version: string,
 ) => void = createCommand(
-  'genfromhd',
-  'Generate key(s) from HD key',
+  'from-hd',
+  'Generate key(s) from HD key (encrypted seed)',
   [
-    globalOptions.keyAmount({ isOptional: true }),
+    globalOptions.keyGenFromChoice(),
+    globalOptions.keyAlias(),
     globalOptions.keySeed(),
     globalOptions.keyPassword(),
-    globalOptions.keyFilename({ isOptional: true }),
-    globalOptions.keyGenFromHdChoice(),
+    globalOptions.keyAmount({ isOptional: true }),
   ],
   async (config) => {
-    debug('generate-from-hid:action')({ config });
+    debug('generate-from-hd:action')({ config });
+
+    const loading = ora('Generating from seed..').start();
     try {
-      const keys = await generateFromHd(config as IConfig);
-      console.log(keys);
-      displayGeneratedHdKeys(keys);
+      const result = {
+        ...config,
+        legacy: config.keySeed.length >= 256,
+      };
+      const keys = await generateFromHd(result as IKeysConfig);
+      loading.succeed('Completed');
+      displayGeneratedPlainKeys(keys);
+
+      await storageService.savePlainKeyByAlias(
+        config.keyAlias,
+        keys,
+        config.legacy,
+      );
+      printStoredPlainKeys(config.keyAlias, keys, config.legacy);
     } catch (error) {
+      loading.fail('Operation failed');
       console.error(`Error: ${error instanceof Error ? error.message : error}`);
     }
   },

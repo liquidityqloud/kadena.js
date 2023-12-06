@@ -6,7 +6,7 @@ import {
   PLAINKEY_LEGACY_EXT,
 } from '../../constants/config.js';
 
-import { existsSync, mkdirSync, readdirSync } from 'fs';
+import { getFilesWithExtension } from './storage.js';
 
 /**
  * Fetches all plain key files from the specified directory.
@@ -41,28 +41,33 @@ export function getHDLegacyKeys(): string[] {
 }
 
 /**
- * Fetches all files with a specific extension from a given directory.
- * @param {string} dir - The directory path from which files are to be read.
- * @param {string} extension - The file extension to filter by.
- * @returns {string[]} Array of filenames with the specified extension, without the extension itself.
+ * Fetches all HD key filenames (both standard and legacy) from the specified directory.
+ * @returns {string[]} Array of HD key filenames without their extensions.
  */
-export function getFilesWithExtension(
-  dir: string,
-  extension: string,
-): string[] {
-  if (!existsSync(dir)) {
-    mkdirSync(dir, { recursive: true });
-  }
-
-  try {
-    return readdirSync(dir).filter((filename) =>
-      filename.toLowerCase().endsWith(extension),
-    );
-  } catch (error) {
-    console.error(`Error reading directory for extension ${extension}:`, error);
-    return [];
-  }
+export function getAllHDKeys(): string[] {
+  const hdKeys = getHDKeys();
+  const hdLegacyKeys = getHDLegacyKeys();
+  return [...hdKeys, ...hdLegacyKeys];
 }
 
+/**
+ * Converts a Uint8Array to a hexadecimal string.
+ *
+ * This function takes a Uint8Array and returns its equivalent hexadecimal string representation.
+ *
+ * @param {Uint8Array} bytes - The Uint8Array to be converted.
+ * @returns {string} The hexadecimal string representation of the input bytes.
+ */
 export const toHexStr = (bytes: Uint8Array): string =>
   Buffer.from(bytes).toString('hex');
+
+/**
+ * Converts a hexadecimal string to a Uint8Array.
+ *
+ * This function takes a hexadecimal string and returns its equivalent Uint8Array representation.
+ *
+ * @param {string} hexStr - The hexadecimal string to be converted.
+ * @returns {Uint8Array} The Uint8Array representation of the input hexadecimal string.
+ */
+export const fromHexStr = (hexStr: string): Uint8Array =>
+  new Uint8Array(Buffer.from(hexStr, 'hex'));

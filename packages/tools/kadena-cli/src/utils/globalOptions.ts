@@ -13,8 +13,12 @@ import {
 } from '../prompts/index.js';
 
 import chalk from 'chalk';
+import { HDKEY_ENC_EXT, HDKEY_ENC_LEGACY_EXT } from '../constants/config.js';
 import { loadDevnetConfig } from '../devnet/utils/devnetHelpers.js';
-import { getStoredPlainKeyByAlias } from '../keys/utils/storage.js';
+import {
+  getStoredPlainKeyByAlias,
+  readKeyFileContent,
+} from '../keys/utils/storage.js';
 import {
   ensureNetworksConfiguration,
   loadNetworkConfig,
@@ -263,12 +267,12 @@ export const globalOptions = {
       'Enter the number of key pairs you want to generate (default: 1)',
     ),
   }),
-  keyGenFromHdChoice: createOption({
-    key: 'keyGenFromHdChoice',
-    prompt: keys.genFromHdChoicePrompt,
+  keyGenFromChoice: createOption({
+    key: 'keyGenFromChoice',
+    prompt: keys.genFromChoicePrompt,
     validation: z.string(),
     option: new Option(
-      '-c, --key-gen-from-hd-choice <keyGenFromHdChoice>',
+      '-c, --key-gen-from-choice <keyGenFromChoice>',
       'Choose an action for generating keys',
     ),
   }),
@@ -280,6 +284,15 @@ export const globalOptions = {
       '-s, --key-seed <choice>',
       'Enter your seed to generate keys from',
     ),
+    transform: (keySeed: string) => {
+      if (
+        keySeed.includes(HDKEY_ENC_EXT) ||
+        keySeed.includes(HDKEY_ENC_LEGACY_EXT)
+      ) {
+        return readKeyFileContent(keySeed);
+      }
+      return keySeed;
+    },
   }),
   keyPassword: createOption({
     key: 'keyPassword' as const,
@@ -288,6 +301,15 @@ export const globalOptions = {
     option: new Option(
       '-p, --key-password <keyPassword>',
       'Enter a password to encrypt your key with',
+    ),
+  }),
+  keyMnemonic: createOption({
+    key: 'keyMnemonic' as const,
+    prompt: keys.keyMnemonic,
+    validation: z.string(),
+    option: new Option(
+      '-m, --key-mnemonic <keyMnemonic>',
+      'Enter your 12-word mnemonic phrase to generate keys from',
     ),
   }),
   keyUsePassword: createOption({
@@ -344,6 +366,12 @@ export const globalOptions = {
       '--policies <policies>',
       'Enter the policies for the NFT',
     ),
+  }),
+  key: createOption({
+    key: 'key' as const,
+    prompt: keys.keySelectPrompt,
+    validation: z.string(),
+    option: new Option('-k, --key <key>', 'Select key from keyfile'),
   }),
 } as const;
 
