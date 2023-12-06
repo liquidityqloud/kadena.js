@@ -15,7 +15,7 @@ interface ICreateAccountCommandInput {
   account: string;
   keyset: {
     keys: string[];
-    pred: 'keys-all' | 'keys-2' | 'keys-any';
+    pred: 'keys-all' | 'keys-two' | 'keys-one';
   };
   gasPayer: { account: string; publicKeys: string[] };
   chainId: ChainId;
