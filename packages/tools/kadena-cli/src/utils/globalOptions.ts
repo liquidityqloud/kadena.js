@@ -7,13 +7,14 @@ import {
   generic,
   genericActionsPrompts,
   keys,
-  // marmalade,
+  marmalade,
   networks,
   security,
 } from '../prompts/index.js';
 
 import chalk from 'chalk';
 import { loadDevnetConfig } from '../devnet/utils/devnetHelpers.js';
+import { getStoredPlainKeyByAlias } from '../keys/utils/storage.js';
 import {
   ensureNetworksConfiguration,
   loadNetworkConfig,
@@ -227,7 +228,7 @@ export const globalOptions = {
       }
     },
   }),
-  chainId: createOption({
+  networkChainId: createOption({
     key: 'chainId' as const,
     prompt: networks.chainIdPrompt,
     validation: z
@@ -247,8 +248,11 @@ export const globalOptions = {
     validation: z.string(),
     option: new Option(
       '-a, --key-alias <keyAlias>',
-      'Enter an alias to store your key',
+      'Enter the alias for your key',
     ),
+    expand: async (keyAlias: string) => {
+      return getStoredPlainKeyByAlias(keyAlias);
+    },
   }),
   keyAmount: createOption({
     key: 'keyAmount' as const,
@@ -302,6 +306,43 @@ export const globalOptions = {
     option: new Option(
       '-f, --key-filename <keyFilename>',
       'Enter filename to store your key in',
+    ),
+  }),
+
+  // general account usage for signing
+  publicKey: createOption({
+    key: 'publicKey' as const,
+    prompt: marmalade.publicKey,
+    validation: z.string(),
+    option: new Option(
+      '-P, --publickey <publicKey>',
+      'Enter a publicKey to sign for the transaction',
+    ),
+  }),
+  secretKey: createOption({
+    key: 'secretKey' as const,
+    prompt: marmalade.secretKey,
+    validation: z.string(),
+    option: new Option(
+      '-S, --secretKey <secretKey>',
+      'Enter a secretKey to sign for the transaction',
+    ),
+  }),
+
+  // Marmalade
+  uri: createOption({
+    key: 'uri' as const,
+    prompt: marmalade.uri,
+    validation: z.string(),
+    option: new Option('--uri <uri>', 'Enter the URI for the NFT'),
+  }),
+  policies: createOption({
+    key: 'policies' as const,
+    prompt: marmalade.policies,
+    validation: z.string(),
+    option: new Option(
+      '--policies <policies>',
+      'Enter the policies for the NFT',
     ),
   }),
 } as const;

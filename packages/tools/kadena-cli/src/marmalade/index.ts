@@ -1,3 +1,4 @@
+import { marmaladeCreateTokenCommandFactory } from './commands/marmaladeCreateToken.js';
 import { mintCommand } from './commands/marmaladeMint.js';
 
 import type { Command } from 'commander';
@@ -12,5 +13,6 @@ export function marmaladeCommandFactory(
     .command(SUBCOMMAND_ROOT)
     .description(`Tool for minting and managing NFTs with Marmalade`);
 
+  marmaladeCreateTokenCommandFactory(marmaladeProgram, version);
   mintCommand(marmaladeProgram, version);
 }
