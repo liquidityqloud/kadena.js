@@ -110,13 +110,13 @@ describe('yaml-converter', () => {
         literalName: 'My Literal Name',
       };
 
-      const res = parseYamlToKdaTx(args)(
+      const tplTx = parseYamlToKdaTx(args)(
         replaceHolesInCtx(args)(
           getPartsAndHolesInCtx('./aux-files/tx-with-codefile.yaml', __dirname),
         ),
       );
 
-      expect(res.tplTx).deep.eq({
+      expect(tplTx).deep.eq({
         code: `(module 12 My Literal Name)
 `,
         data: 12,
@@ -130,7 +130,7 @@ describe('yaml-converter', () => {
         aNumber: 12,
       };
 
-      const res = parseYamlToKdaTx(args)(
+      const tplTx = parseYamlToKdaTx(args)(
         replaceHolesInCtx(args)(
           getPartsAndHolesInCtx(
             './aux-files/tx-without-codefile.yaml',
@@ -139,7 +139,7 @@ describe('yaml-converter', () => {
         ),
       );
 
-      expect(res.tplTx).deep.eq({
+      expect(tplTx).deep.eq({
         code: `(module 123 Nil)`,
         data: 12,
         something: false,

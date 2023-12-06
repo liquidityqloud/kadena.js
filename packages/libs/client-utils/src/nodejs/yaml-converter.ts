@@ -31,6 +31,7 @@ interface ITemplateContextReplacedHoles extends ITemplateContext {
 
 interface ITemplateTransaction {
   codeFile?: string;
+  code?: string;
   command: string;
   publicMeta: {
     chainId: string;
@@ -45,9 +46,7 @@ interface ITemplateTransaction {
   nonce: string;
 }
 
-interface ITemplateContextPactCommand extends ITemplateContextReplacedHoles {
-  tplTx: Omit<ITemplateTransaction, 'codeFile'> & { code?: string };
-}
+type ITemplateTransactionPactCommand = Omit<ITemplateTransaction, 'codeFile'>;
 
 // Responsinble for splitting a string into parts and holes
 export const getPartsAndHoles = (text: string) => {
@@ -115,6 +114,10 @@ export const replaceHoles = (
     .join('');
 };
 
+const replaceHolesFn =
+  (args: Record<string, string | number>) => (partsAndHoles: PartsAndHoles) =>
+    replaceHoles(partsAndHoles, args);
+
 // Responsible for replacing holes in a context with values
 export const replaceHolesInCtx = (args: Record<string, string | number>) => {
   return (ctx: ITemplateContext): ITemplateContextReplacedHoles => {
@@ -122,17 +125,19 @@ export const replaceHolesInCtx = (args: Record<string, string | number>) => {
     return { ...ctx, filledYamlString: replaceHoles(tplString, args) };
   };
 };
+
+const loadYamlAsKdaTx = (yamlString: string) => {
+  return yaml.load(yamlString) as ITemplateTransaction;
+};
+
 export const parseYamlToKdaTx =
   (args: Record<string, string | number>) =>
-  (ctx: ITemplateContextReplacedHoles): ITemplateContextPactCommand => {
+  (ctx: ITemplateContextReplacedHoles): ITemplateTransactionPactCommand => {
     const { filledYamlString } = ctx;
-    const kdaToolTx = yaml.load(filledYamlString) as ITemplateTransaction;
+    const kdaToolTx = loadYamlAsKdaTx(filledYamlString);
 
     if (!('codeFile' in kdaToolTx && kdaToolTx.codeFile)) {
-      return {
-        ...ctx,
-        tplTx: kdaToolTx,
-      };
+      return kdaToolTx;
     }
 
     const { codeFile, ...kdaToolTxWithoutCodeFile } = kdaToolTx;
@@ -144,20 +149,16 @@ export const parseYamlToKdaTx =
     const code = replaceHoles(getPartsAndHoles(codeWithHoles), args);
 
     return {
-      ...ctx,
-      tplTx: {
-        ...kdaToolTxWithoutCodeFile,
-        code,
-      },
+      ...kdaToolTxWithoutCodeFile,
+      code,
     };
   };
 
 // Responsible for converting a kda tool transaction into a kadena client transaction
 export const convertTemplateTxToPactCommand = (
-  ctx: ITemplateContextPactCommand,
+  tplTx: ITemplateTransaction,
 ): IPactCommand => {
-  const { code, ...kdaToolTx } = ctx.tplTx;
-
+  const { code, ...kdaToolTx } = tplTx;
   const execPayload: IExecutionPayloadObject = {
     data: kdaToolTx.data,
     code: code,
@@ -189,6 +190,23 @@ export const createPactCommandFromTemplate = async (
     parseYamlToKdaTx(args),
     convertTemplateTxToPactCommand,
   )(path, cwd);
+};
+
+export const createPactCommandFromTemplateString = async (
+  template: string,
+  args: Record<string, string | number>,
+): Promise<IPactCommand> => {
+  if (template.includes('codeFile')) {
+    throw new Error(
+      'codeFile is not supported in template string. use `createPactCommandFromTemplate` instead',
+    );
+  }
+  return asyncPipe(
+    getPartsAndHoles,
+    replaceHolesFn(args),
+    loadYamlAsKdaTx,
+    convertTemplateTxToPactCommand,
+  )(template);
 };
 
 // Responsible for zipping together parts and holes

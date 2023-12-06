@@ -1,1 +1,5 @@
-export { createPactCommandFromTemplate } from './yaml-converter';
+export {
+  createPactCommandFromTemplate,
+  createPactCommandFromTemplateString,
+  getPartsAndHoles,
+} from './yaml-converter';
