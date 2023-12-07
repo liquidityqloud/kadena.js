@@ -1,3 +1,4 @@
+import { details } from '@kadena/client-utils/coin';
 import { createTokenId } from '@kadena/client-utils/marmalade';
 import type { Command } from 'commander';
 import debug from 'debug';
@@ -24,17 +25,14 @@ export const createTokenKeyAliasCommand: (
   'Create a new NFT token on Marmalade using a key alias',
   [
     globalOptions.network(),
-    globalOptions.keyAlias(),
     globalOptions.networkChainId(),
+    globalOptions.accountName(),
     globalOptions.uri(),
     globalOptions.policies(),
   ],
   async (config) => {
     debug('marmalade-mint:action')({ config });
 
-    if (!config.keyAliasConfig) {
-      throw new Error(`keypair file not found with alias ${config.keyAlias}`);
-    }
     // kadena marmalade create-token keyalias --key-alias=123 --uri=abc --policies=abc,def
     // kadena marmalade mint hdkey --hd-alias=123 --password=123 --uri=abc
 
@@ -44,25 +42,46 @@ export const createTokenKeyAliasCommand: (
     // 2. hdkey with index and (if required) password
     // 3. key pair & predicate directly in arguments
 
+    const accountDetails = (await details(
+      config.accountName,
+      config.networkConfig.networkId,
+      config.chainId,
+      config.networkConfig.networkHost,
+    )) as
+      | {
+          guard: {
+            pred: string;
+            keys: string[];
+          };
+          balance: number;
+          account: string;
+        }
+      | undefined;
+
+    if (accountDetails === undefined) {
+      throw Error(
+        `Account ${config.accountName} does not exist on ${config.networkConfig.networkId} on chain ${config.chainId}`,
+      );
+    }
+
     const tokenIdResponse = createTokenId(
       {
         account: {
-          account: `k:${config.keyAliasConfig.publicKey}`,
-          publicKeys: [config.keyAliasConfig.publicKey],
+          account: config.accountName,
+          publicKeys: accountDetails.guard.keys,
         },
         gasPayer: {
-          account: `k:${config.keyAliasConfig.publicKey}`,
-          publicKeys: [config.keyAliasConfig.publicKey],
+          account: config.accountName,
+          publicKeys: accountDetails.guard.keys,
         },
         chainId: config.chainId,
         uri: config.uri,
         policies: config.policies
           .split(',')
           .map((value: string) => value.trim()),
-        creationGuard: {
-          keys: [config.keyAliasConfig.publicKey],
-          pred: 'keys-all',
-        },
+        creationGuard: accountDetails.guard as Parameters<
+          typeof createTokenId
+        >[0]['creationGuard'],
       },
       {
         host: config.networkConfig.networkHost,
