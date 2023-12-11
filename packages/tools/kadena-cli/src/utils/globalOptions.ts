@@ -465,6 +465,17 @@ export const globalOptions = {
       return keyMessage;
     },
   }),
+
+  // Dapp
+  dappTemplate: createOption({
+    key: 'dappTemplate' as const,
+    prompt: genericActionsPrompts.actionAskForDappTemplate,
+    validation: z.string(),
+    option: new Option(
+      '-t, --dapp-template <dappTemplate>',
+      'Select a dapp template',
+    ),
+  }),
 } as const;
 
 export type GlobalOptions = typeof globalOptions;
