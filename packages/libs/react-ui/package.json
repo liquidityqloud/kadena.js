@@ -3,7 +3,7 @@
   "version": "0.5.0",
   "private": true,
   "description": "A react component library built on Kadena's Design System",
-  "license": "ISC",
+  "license": "BSD-3-Clause",
   "author": "",
   "exports": {
     ".": {
