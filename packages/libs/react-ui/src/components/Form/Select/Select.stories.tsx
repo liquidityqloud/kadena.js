@@ -8,6 +8,7 @@ import { Select } from './Select';
 const meta: Meta<ISelectProps> = {
   title: 'Form/Select',
   component: Select,
+  tags: ['hidden'],
   decorators: [withContentWidth, onLayer2],
   parameters: {
     status: { type: 'inDevelopment' },

@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 const meta: Meta<ITextareaProps> = {
   title: 'Form/Textarea/Textarea',
   component: Textarea,
+  tags: ['hidden'],
   decorators: [withContentWidth, onLayer2],
   parameters: {
     status: { type: 'inDevelopment' },

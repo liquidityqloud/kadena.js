@@ -15,7 +15,7 @@ const meta: Meta<StoryProps> = {
   title: 'Form/FormFieldWrapper',
   decorators: [withContentWidth, onLayer2],
   parameters: {
-    status: { type: 'stable' },
+    status: { type: 'experimental' },
     docs: {
       description: {
         component:

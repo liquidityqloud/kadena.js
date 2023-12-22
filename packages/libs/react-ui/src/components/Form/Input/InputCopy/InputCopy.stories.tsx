@@ -7,6 +7,7 @@ import React from 'react';
 
 const meta: Meta<IInputProps> = {
   title: 'Form/Input/InputCopy',
+  tags: ['hidden'],
   component: InputCopy,
   decorators: [withContentWidth, onLayer2],
   parameters: {

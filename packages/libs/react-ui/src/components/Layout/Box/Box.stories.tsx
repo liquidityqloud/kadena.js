@@ -20,7 +20,7 @@ const meta: Meta<IBoxProps> = {
   component: Box,
   parameters: {
     status: {
-      type: 'stable',
+      type: 'releaseCandidate',
     },
     docs: {
       description: {

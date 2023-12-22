@@ -8,6 +8,7 @@ import { TextareaCopy } from './TextareaCopy';
 const meta: Meta<ITextareaProps> = {
   title: 'Form/Textarea/TextareaCopy',
   component: TextareaCopy,
+  tags: ['hidden'],
   decorators: [withContentWidth, onLayer2],
   parameters: {
     docs: {

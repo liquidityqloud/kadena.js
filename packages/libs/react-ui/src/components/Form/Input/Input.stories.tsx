@@ -37,6 +37,7 @@ const HTMLInputTypes: HTMLInputTypeAttribute[] = [
 const meta: Meta<IInputProps> = {
   title: 'Form/Input/Input',
   component: Input,
+  tags: ['hidden'],
   decorators: [withContentWidth, onLayer2],
   parameters: {
     status: { type: 'inDevelopment' },
