@@ -5,8 +5,6 @@ KodeMono();
 export type {
   FormFieldStatus,
   IAccordionProps,
-  IAccordionRootProps,
-  IAccordionSectionProps,
   IBoxProps,
   IBreadcrumbItemProps,
   IBreadcrumbsProps,

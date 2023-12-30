@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@kadena/fonts": "~0.0.1",
+    "@react-aria/selection": "3.17.2",
     "@react-aria/utils": "^3.22.0",
     "@vanilla-extract/css": "1.14.0",
     "@vanilla-extract/css-utils": "^0.1.3",

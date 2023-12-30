@@ -1,7 +1,6 @@
 'use client';
 import {
   accordionButtonClass,
-  accordionHeadingTitleClass,
   accordionSectionClass,
   accordionToggleIconClass,
 } from '@components/Accordion/Accordion.css';
@@ -58,7 +57,7 @@ export const NavAccordionSection: FC<INavAccordionSectionProps> = ({
         className={classNames([accordionButtonClass])}
         onClick={handleClick}
       >
-        <h3 className={accordionHeadingTitleClass}>{title}</h3>
+        <h3>{title}</h3>
         <SystemIcon.Close
           className={classNames(accordionToggleIconClass, {
             isOpen,

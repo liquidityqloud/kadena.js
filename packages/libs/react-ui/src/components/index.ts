@@ -1,8 +1,4 @@
-export type {
-  IAccordionProps,
-  IAccordionRootProps,
-  IAccordionSectionProps,
-} from './Accordion';
+export type { IAccordionProps } from './Accordion';
 export type { IBreadcrumbItemProps, IBreadcrumbsProps } from './Breadcrumbs';
 export type { IButtonProps } from './Button';
 export type { ICardProps } from './Card';
