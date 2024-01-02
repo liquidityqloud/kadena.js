@@ -1,6 +1,5 @@
 import type { IFormFieldWrapperProps, ITextareaProps } from '@components/Form';
 import { Textarea } from '@components/Form';
-import type { FC } from 'react';
 import React, { forwardRef } from 'react';
 import { FormFieldHeader, FormFieldHelper } from '../FormFieldWrapper';
 import { statusVariant } from '../FormFieldWrapper/FormFieldWrapper.css';
@@ -9,7 +8,7 @@ export interface ITextareaFieldProps
   extends Omit<IFormFieldWrapperProps, 'htmlFor' | 'children'>,
     Omit<ITextareaProps, 'disabled'> {}
 
-export const TextareaField: FC<ITextareaFieldProps> = forwardRef<
+export const TextareaField = forwardRef<
   HTMLTextAreaElement,
   ITextareaFieldProps
 >(function TextareaField(
@@ -21,7 +20,7 @@ export const TextareaField: FC<ITextareaFieldProps> = forwardRef<
   return (
     <div className={statusVal ? statusVariant[statusVal] : undefined}>
       {label !== undefined && (
-        <FormFieldHeader htmlFor={id} label={label} tag={tag} info={info} />
+        <FormFieldHeader label={label} tag={tag} info={info} />
       )}
 
       <Textarea ref={ref} disabled={disabled} id={id} {...rest} />
