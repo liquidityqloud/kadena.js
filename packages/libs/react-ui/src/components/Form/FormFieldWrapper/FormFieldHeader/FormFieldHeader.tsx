@@ -6,20 +6,19 @@ import { headerClass, infoClass, tagClass } from './FormFieldHeader.css';
 
 export interface IFormFieldHeaderProps {
   label: string;
-  htmlFor: string;
   tag?: string;
   info?: string;
 }
 
 export const FormFieldHeader: FC<IFormFieldHeaderProps> = ({
   label,
-  htmlFor,
   tag,
   info,
+  ...rest
 }) => {
   return (
     <div className={headerClass}>
-      {Boolean(label) && <Label htmlFor={htmlFor}>{label}</Label>}
+      {Boolean(label) && <Label {...rest}>{label}</Label>}
       {Boolean(tag) && <span className={tagClass}>{tag}</span>}
       {Boolean(info) && (
         <span className={infoClass}>

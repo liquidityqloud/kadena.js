@@ -7,9 +7,12 @@ interface IFormFieldHelperProps {
   children: React.ReactNode;
 }
 
-export const FormFieldHelper: FC<IFormFieldHelperProps> = ({ children }) => {
+export const FormFieldHelper: FC<IFormFieldHelperProps> = ({
+  children,
+  ...rest
+}) => {
   return (
-    <span className={helperClass}>
+    <span className={helperClass} {...rest}>
       <span className={helperIconClass}>
         <SystemIcon.AlertBox size="sm" />
       </span>
