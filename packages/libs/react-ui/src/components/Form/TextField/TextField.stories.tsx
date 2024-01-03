@@ -38,7 +38,7 @@ const meta: Meta<ITextFieldProps> = {
         type: 'text',
       },
     },
-    helperText: {
+    description: {
       description:
         'Text that is rendered below the input to give the user additional information. Often will be used for validation messages.',
       control: {
@@ -90,7 +90,7 @@ export const Group: Story = {
   name: 'Text Field',
   args: {
     tag: 'tag',
-    helperText: 'This is helper text',
+    description: 'This is helper text',
     info: '(optional)',
     label: 'Label',
     disabled: false,
@@ -104,7 +104,7 @@ export const Group: Story = {
     disabled,
     status,
     tag,
-    helperText,
+    description,
     info,
     label,
   }) => {
@@ -115,8 +115,8 @@ export const Group: Story = {
         label={label}
         status={status}
         disabled={disabled}
-        errorMessage="something went wrong"
-        description={helperText}
+        errorMessage={'something went wrong'}
+        description={description}
         id="inputStory"
         leadingText={leadingText}
         startIcon={startIcon}

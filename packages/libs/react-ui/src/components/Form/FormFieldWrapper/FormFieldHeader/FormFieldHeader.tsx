@@ -8,6 +8,7 @@ export interface IFormFieldHeaderProps {
   label: string;
   tag?: string;
   info?: string;
+  htmlFor?: string;
 }
 
 export const FormFieldHeader: FC<IFormFieldHeaderProps> = ({

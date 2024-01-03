@@ -1,18 +1,19 @@
-import type { FormFieldStatus, IInputProps } from '@components/Form'; // import from components
-import { Input } from '@components/Form';
 import { useObjectRef } from '@react-aria/utils';
-import type { FunctionComponentElement } from 'react';
 import React, { forwardRef } from 'react';
 import type { AriaTextFieldProps } from 'react-aria';
 import { useTextField } from 'react-aria';
+import type { FormFieldStatus } from '../Form.css';
 import { FormFieldHeader, FormFieldHelper } from '../FormFieldWrapper';
 import { statusVariant } from '../FormFieldWrapper/FormFieldWrapper.css';
+import type { IInputProps } from '../Input/Input';
+import { Input } from '../Input/Input';
 
-// do i wanna just extend FormFieldWrapperProps?
 export interface ITextFieldProps
   extends Omit<
       IInputProps,
       | 'children'
+      | 'label'
+      | 'id'
       | 'disabled'
       | 'defaultValue'
       | 'onBlur'
@@ -27,22 +28,21 @@ export interface ITextFieldProps
       AriaTextFieldProps,
       | 'children'
       | 'label'
-      // | 'id'
-      // | 'defaultValue'
-      // | 'onBlur'
+      | 'defaultValue'
+      | 'onBlur'
       | 'onChange'
-      // | 'onFocus'
-      // | 'onKeyDown'
-      // | 'onKeyUp'
-      // | 'type'
-      // | 'value'
+      | 'onFocus'
+      | 'onKeyDown'
+      | 'onKeyUp'
+      | 'type'
+      | 'value'
     > {
   status?: FormFieldStatus;
   disabled?: boolean;
-  helperText?: string;
   label?: string;
   tag?: string;
   info?: string;
+  id: string;
 }
 
 export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
@@ -54,11 +54,11 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
       label,
       info,
       tag,
-      // helperText,
-      // leadingText,
-      // outlined,
-      // startIcon,
-      ...inputProps
+      leadingText,
+      outlined,
+      startIcon,
+      className,
+      fontFamily,
     } = props;
 
     const ref = useObjectRef<HTMLInputElement>(forwardedRef);
@@ -72,13 +72,12 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
       validationErrors,
     } = useTextField(
       {
-        validationState: status === 'negative' ? 'invalid' : 'valid',
         isInvalid: status === 'negative',
         ...props,
       },
       ref,
     );
-    console.log(validationErrors);
+    console.log(validationErrors, props.errorMessage);
 
     const statusVal = disabled === true ? 'disabled' : status;
 
@@ -96,7 +95,12 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
           ref={ref}
           disabled={disabled}
           id={id}
-          {...inputProps}
+          leadingText={leadingText}
+          startIcon={startIcon}
+          outlined={outlined}
+          status={status}
+          className={className}
+          fontFamily={fontFamily}
           {...ariaInputProps}
         />
         {Boolean(props.description) && !isInvalid && (
@@ -106,7 +110,7 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
         )}
         {isInvalid && (
           <FormFieldHelper {...errorMessageProps}>
-            {validationErrors.join(' ')}
+            {props.errorMessage}
           </FormFieldHelper>
         )}
       </div>
