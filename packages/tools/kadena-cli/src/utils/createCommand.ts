@@ -179,8 +179,7 @@ export function createCommand<
           displayConfig(config);
           console.log('\n');
         }
-
-        await action(config, newArgs);
+        await action(config, rest[0].args);
       } catch (error) {
         console.error(error);
         console.error(chalk.red(`Error executing command ${name}: ${error})`));
