@@ -47,7 +47,6 @@ export const TextFieldStory: Story = {
     fontFamily: 'codeFont',
     placeholder: 'This is a placeholder',
     value: '',
-    onChange: () => {},
   },
   render: ({ disabled, ...rest }) => {
     const [value, setValue] = useState<string>('');
@@ -57,7 +56,7 @@ export const TextFieldStory: Story = {
         disabled={disabled}
         {...rest}
         value={value}
-        onChange={({ target }) => setValue(target.value)}
+        onChange={setValue}
       />
     );
   },

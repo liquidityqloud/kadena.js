@@ -42,6 +42,7 @@ export interface ITextFieldProps
   label?: string;
   tag?: string;
   info?: string;
+  helperText?: string;
   id: string;
 }
 
@@ -59,6 +60,7 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
       startIcon,
       className,
       fontFamily,
+      helperText,
     } = props;
 
     const ref = useObjectRef<HTMLInputElement>(forwardedRef);
@@ -69,7 +71,6 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
       descriptionProps,
       errorMessageProps,
       isInvalid,
-      validationErrors,
     } = useTextField(
       {
         isInvalid: status === 'negative',
@@ -77,7 +78,6 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
       },
       ref,
     );
-    console.log(validationErrors, props.errorMessage);
 
     const statusVal = disabled === true ? 'disabled' : status;
 
@@ -92,6 +92,7 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
           />
         )}
         <Input
+          {...ariaInputProps}
           ref={ref}
           disabled={disabled}
           id={id}
@@ -101,17 +102,12 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
           status={status}
           className={className}
           fontFamily={fontFamily}
-          {...ariaInputProps}
         />
-        {Boolean(props.description) && !isInvalid && (
-          <FormFieldHelper {...descriptionProps}>
-            {props.description}
-          </FormFieldHelper>
+        {Boolean(helperText) && !isInvalid && (
+          <FormFieldHelper {...descriptionProps}>{helperText}</FormFieldHelper>
         )}
-        {isInvalid && (
-          <FormFieldHelper {...errorMessageProps}>
-            {props.errorMessage}
-          </FormFieldHelper>
+        {Boolean(helperText) && isInvalid && (
+          <FormFieldHelper {...errorMessageProps}>{helperText}</FormFieldHelper>
         )}
       </div>
     );

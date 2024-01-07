@@ -1,9 +1,9 @@
 import { atoms } from '@theme/atoms.css';
 import classNames from 'classnames';
 import type { FC, TextareaHTMLAttributes } from 'react';
-import React, { forwardRef, useContext } from 'react';
+import React, { forwardRef } from 'react';
+import type { FormFieldStatus } from '../Form.css';
 import { baseContainerClass, baseOutlinedClass } from '../Form.css';
-import { FormFieldWrapperContext } from '../FormFieldWrapper/FormFieldWrapper.context';
 import {
   buttonContainerClass,
   disabledClass,
@@ -21,6 +21,7 @@ export interface ITextareaProps
   disabled?: boolean;
   ref?: React.ForwardedRef<HTMLTextAreaElement>;
   outlined?: boolean;
+  status?: FormFieldStatus;
 }
 
 /**
@@ -30,11 +31,9 @@ export const Textarea: FC<ITextareaProps> = forwardRef<
   HTMLTextAreaElement,
   ITextareaProps
 >(function TextArea(
-  { outlined = false, disabled = false, fontFamily, children, ...rest },
+  { outlined = false, disabled = false, fontFamily, children, status, ...rest },
   ref,
 ) {
-  const { status } = useContext(FormFieldWrapperContext);
-
   return (
     <div
       className={classNames(baseContainerClass, textAreaContainerClass, {
