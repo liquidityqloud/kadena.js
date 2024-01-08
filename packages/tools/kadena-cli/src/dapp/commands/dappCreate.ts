@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { spawnSync } from 'child_process';
 import type { Command } from 'commander';
-import debug from 'debug';
+import { services } from '../../services/index.js';
 import { existsSync } from 'fs';
 import { join } from 'path';
 
@@ -16,7 +16,7 @@ export const createDappCommand: (program: Command, version: string) => void =
     async (config, args) => {
       const projectDir = join(process.cwd(), args[0]);
       const { dappTemplate } = config;
-      const folderExists = existsSync(projectDir);
+      const folderExists = await services.filesystem.directoryExists(projectDir);
 
       if (folderExists) {
         console.error(chalk.red(`Project directory ${args[0]} already exists`));

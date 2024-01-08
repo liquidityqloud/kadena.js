@@ -47,11 +47,7 @@ export function createCommand<
   description: string,
   options: [...T],
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  action: (
-    finalConfig: Prettify<Combine<T>>,
-    args?: any,
-    configArg?: any,
-  ) => any,
+  action: (finalConfig: Prettify<Combine<T>>, args?: any) => any,
 ): (program: Command, version: string) => void {
   return async (program: Command, version: string) => {
     const command = program.command(name).description(description);
@@ -186,7 +182,7 @@ export function createCommand<
 
         const generalArgs = rest.flatMap((r) => r.args);
 
-        await action(config, generalArgs, newArgs);
+        await action(config, generalArgs);
       } catch (error) {
         console.error(error);
         console.error(chalk.red(`Error executing command ${name}: ${error})`));
