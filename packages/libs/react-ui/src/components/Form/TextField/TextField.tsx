@@ -19,7 +19,6 @@ export interface ITextFieldProps
   label?: string;
   tag?: string;
   info?: string;
-  helperText?: string;
 }
 
 export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
@@ -35,7 +34,8 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
       startIcon,
       className,
       fontFamily,
-      helperText,
+      // errorMessage,
+      description,
     } = props;
 
     const ref = useObjectRef<HTMLInputElement>(forwardedRef);
@@ -78,10 +78,10 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
           className={className}
           fontFamily={fontFamily}
         />
-        {Boolean(helperText) && !isInvalid && (
-          <FormFieldHelper {...descriptionProps}>{helperText}</FormFieldHelper>
+        {Boolean(description) && !isInvalid && (
+          <FormFieldHelper {...descriptionProps}>{description}</FormFieldHelper>
         )}
-        {Boolean(helperText) && isInvalid && (
+        {isInvalid && (
           <FormFieldHelper {...errorMessageProps}>
             {validationErrors.join(' ')}
           </FormFieldHelper>
