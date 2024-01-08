@@ -21,7 +21,6 @@ export interface IInputProps
   startIcon?: React.ReactElement;
   type?: React.HTMLInputTypeAttribute;
   ref?: React.ForwardedRef<HTMLInputElement>;
-  id: string;
   outlined?: boolean;
   status?: FormFieldStatus;
   fontFamily?: 'primaryFont' | 'codeFont';

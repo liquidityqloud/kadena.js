@@ -117,6 +117,7 @@ export const Group: Story = {
         disabled={disabled}
         errorMessage={'something went wrong'}
         description={description}
+        // helperText={description}
         id="inputStory"
         leadingText={leadingText}
         startIcon={startIcon}

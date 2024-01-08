@@ -9,29 +9,8 @@ import type { ITextareaProps } from '../Textarea/Textarea';
 import { Textarea } from '../Textarea/Textarea';
 
 export interface ITextareaFieldProps
-  extends Omit<
-      ITextareaProps,
-      | 'children'
-      | 'label'
-      | 'defaultValue'
-      | 'onBlur'
-      | 'onChange'
-      | 'onFocus'
-      | 'onKeyDown'
-      | 'onKeyUp'
-      | 'type'
-      | 'value'
-      | 'onBeforeInput'
-      | 'onCompositionEnd'
-      | 'onCompositionStart'
-      | 'onCompositionUpdate'
-      | 'onCopy'
-      | 'onCut'
-      | 'onInput'
-      | 'onPaste'
-      | 'onSelect'
-    >,
-    Omit<AriaTextFieldProps, 'children' | 'onChange'> {
+  extends Pick<ITextareaProps, 'outlined' | 'fontFamily'>,
+    Omit<AriaTextFieldProps, 'children'> {
   status?: FormFieldStatus;
   disabled?: boolean;
   label?: string;
@@ -73,6 +52,7 @@ export const TextareaField = forwardRef<
     },
     ref,
   );
+
   const statusVal = disabled === true ? 'disabled' : status;
 
   return (

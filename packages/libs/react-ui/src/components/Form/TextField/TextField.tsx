@@ -9,41 +9,17 @@ import type { IInputProps } from '../Input/Input';
 import { Input } from '../Input/Input';
 
 export interface ITextFieldProps
-  extends Omit<
+  extends Pick<
       IInputProps,
-      | 'children'
-      | 'label'
-      | 'id'
-      | 'disabled'
-      | 'defaultValue'
-      | 'onBlur'
-      | 'onChange'
-      | 'onFocus'
-      | 'onKeyDown'
-      | 'onKeyUp'
-      | 'type'
-      | 'value'
+      'leadingText' | 'outlined' | 'startIcon' | 'className' | 'fontFamily'
     >,
-    Omit<
-      AriaTextFieldProps,
-      | 'children'
-      | 'label'
-      | 'defaultValue'
-      | 'onBlur'
-      | 'onChange'
-      | 'onFocus'
-      | 'onKeyDown'
-      | 'onKeyUp'
-      | 'type'
-      | 'value'
-    > {
+    AriaTextFieldProps {
   status?: FormFieldStatus;
   disabled?: boolean;
   label?: string;
   tag?: string;
   info?: string;
   helperText?: string;
-  id: string;
 }
 
 export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
@@ -51,7 +27,6 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
     const {
       disabled = false,
       status,
-      id,
       label,
       info,
       tag,
@@ -71,6 +46,7 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
       descriptionProps,
       errorMessageProps,
       isInvalid,
+      validationErrors,
     } = useTextField(
       {
         isInvalid: status === 'negative',
@@ -95,7 +71,6 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
           {...ariaInputProps}
           ref={ref}
           disabled={disabled}
-          id={id}
           leadingText={leadingText}
           startIcon={startIcon}
           outlined={outlined}
@@ -107,7 +82,9 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
           <FormFieldHelper {...descriptionProps}>{helperText}</FormFieldHelper>
         )}
         {Boolean(helperText) && isInvalid && (
-          <FormFieldHelper {...errorMessageProps}>{helperText}</FormFieldHelper>
+          <FormFieldHelper {...errorMessageProps}>
+            {validationErrors.join(' ')}
+          </FormFieldHelper>
         )}
       </div>
     );

@@ -27,6 +27,10 @@ export interface IFormFieldWrapperProps
   leadingTextWidth?: keyof typeof vars.sizes;
 }
 
+/**
+ * @deprecated it is recomended to use the form field components since they include aria properties.
+ * If you use this component make sure you include aria props yourself.
+ */
 export const FormFieldWrapper: FC<IFormFieldWrapperProps> = ({
   status,
   disabled,

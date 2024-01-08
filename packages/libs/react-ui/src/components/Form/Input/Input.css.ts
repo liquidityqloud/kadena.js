@@ -1,7 +1,6 @@
 import { atoms } from '@theme/atoms.css';
 import { tokens } from '@theme/tokens/contract.css';
-import { vars } from '@theme/vars.css';
-import { style, styleVariants } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 import { calc } from '@vanilla-extract/css-utils';
 
 export const disabledClass = style([
@@ -70,9 +69,3 @@ export const inputChildrenClass = style([
     marginRight: calc(tokens.kda.foundation.spacing.xs).negate().toString(),
   },
 ]);
-
-export const leadingTextWidthVariant = styleVariants(vars.sizes, (size) => {
-  return {
-    width: size,
-  };
-});

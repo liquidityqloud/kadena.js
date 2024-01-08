@@ -124,13 +124,11 @@ export const Group: Story = {
         htmlFor="inputStory"
       >
         <Input
-          id="inputStory"
           placeholder="Input 1"
           disabled={disabled}
           leadingText="Leading"
         />
         <Input
-          id="inputStory2"
           placeholder="Input 2"
           disabled={disabled}
           leadingText="Leading 2"
