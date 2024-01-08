@@ -48,16 +48,9 @@ export const TextFieldStory: Story = {
     placeholder: 'This is a placeholder',
     value: '',
   },
-  render: ({ disabled, ...rest }) => {
+  render: (props) => {
     const [value, setValue] = useState<string>('');
 
-    return (
-      <TextareaField
-        disabled={disabled}
-        {...rest}
-        value={value}
-        onChange={setValue}
-      />
-    );
+    return <TextareaField value={value} onChange={setValue} {...props} />;
   },
 };
