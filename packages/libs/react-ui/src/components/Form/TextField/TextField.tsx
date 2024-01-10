@@ -1,92 +1,162 @@
-import { useObjectRef } from '@react-aria/utils';
-import React, { forwardRef } from 'react';
+import { mergeProps, useObjectRef } from '@react-aria/utils';
+import classNames from 'classnames';
+import type {
+  ChangeEvent,
+  ComponentProps,
+  ElementRef,
+  ForwardedRef,
+  ReactNode,
+} from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import type { AriaTextFieldProps } from 'react-aria';
-import { useTextField } from 'react-aria';
-import type { FormFieldStatus } from '../Form.css';
+import { useFocusRing, useHover, useTextField } from 'react-aria';
+import { formField, inputContainer } from '../Form.css';
 import { FormFieldHeader, FormFieldHelper } from '../FormFieldWrapper';
-import { statusVariant } from '../FormFieldWrapper/FormFieldWrapper.css';
-import type { IInputProps } from '../Input/Input';
-import { Input } from '../Input/Input';
+import { endAddon, input, startAddon } from './TextField.css';
 
-export interface ITextFieldProps
-  extends Pick<
-      IInputProps,
-      'leadingText' | 'outlined' | 'startIcon' | 'className' | 'fontFamily'
-    >,
-    AriaTextFieldProps {
-  status?: FormFieldStatus;
-  disabled?: boolean;
-  label?: string;
+type PickedAriaTextFieldProps = Omit<
+  AriaTextFieldProps,
+  'children' | 'inputElementType' | 'onChange'
+>;
+export interface ITextFieldProps extends PickedAriaTextFieldProps {
+  className?: string;
+  isPositive?: boolean;
   tag?: string;
   info?: string;
+  /*
+   * @deprecated Use `isDisabled` instead. only here to support libs that manages props like `react-hook-form`
+   */
+  disabled?: boolean;
+  /*
+   * using native onChange handler instead of AriaTextFieldProps.onChange to support uncontrolled form state eg. react-hook-form
+   */
+  onChange?: ComponentProps<'input'>['onChange'];
+  /*
+   * alias for `AriaTextFieldProps.onChange`
+   */
+  onValueChange?: (value: string) => void;
+  startAddon?: ReactNode;
+  endAddon?: ReactNode;
 }
 
-export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
-  function TextField(props, forwardedRef) {
-    const {
-      disabled = false,
-      status,
-      label,
-      info,
-      tag,
-      leadingText,
-      outlined,
-      startIcon,
-      className,
-      fontFamily,
-      // errorMessage,
-      description,
-    } = props;
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, react/function-component-definition
+export function TextFieldBase(
+  props: ITextFieldProps,
+  forwardedRef: ForwardedRef<ElementRef<'input'>>,
+) {
+  const ref = useObjectRef<ElementRef<'input'>>(forwardedRef);
+  const isDisabled = props.isDisabled || props.disabled;
+  const {
+    labelProps,
+    inputProps,
+    descriptionProps,
+    errorMessageProps,
+    ...validation
+  } = useTextField(
+    {
+      ...props,
+      onChange: props.onValueChange,
+      inputElementType: 'input',
+      isDisabled,
+    },
+    ref,
+  );
 
-    const ref = useObjectRef<HTMLInputElement>(forwardedRef);
+  const { hoverProps, isHovered } = useHover(props);
+  const { isFocused, isFocusVisible, focusProps } = useFocusRing({
+    isTextInput: true,
+    autoFocus: props.autoFocus,
+  });
 
-    const {
-      labelProps,
-      inputProps: ariaInputProps,
-      descriptionProps,
-      errorMessageProps,
-      isInvalid,
-      validationErrors,
-    } = useTextField(
-      {
-        isInvalid: status === 'negative',
-        ...props,
-      },
-      ref,
-    );
+  // handle uncontrollable form state eg. react-hook-form
+  const handleOnChange = useCallback(
+    (event: ChangeEvent<ElementRef<'input'>>) => {
+      inputProps.onChange?.(event);
+      props.onChange?.(event);
+    },
+    [props.onChange, inputProps.onChange],
+  );
 
-    const statusVal = disabled === true ? 'disabled' : status;
+  // aggregate error message from validation props
+  const errorMessage =
+    typeof props.errorMessage === 'function'
+      ? props.errorMessage(validation)
+      : props.errorMessage ?? validation.validationErrors.join(' ');
 
-    return (
-      <div className={statusVal ? statusVariant[statusVal] : undefined}>
-        {label !== undefined && (
-          <FormFieldHeader
-            label={label}
-            tag={tag}
-            info={info}
-            {...labelProps}
-          />
-        )}
-        <Input
-          {...ariaInputProps}
-          ref={ref}
-          disabled={disabled}
-          leadingText={leadingText}
-          startIcon={startIcon}
-          outlined={outlined}
-          status={status}
-          className={className}
-          fontFamily={fontFamily}
+  return (
+    <div className={classNames(formField, props.className)}>
+      {props.label && (
+        <FormFieldHeader
+          label={props.label}
+          tag={props.tag}
+          info={props.info}
+          {...labelProps}
         />
-        {Boolean(description) && !isInvalid && (
-          <FormFieldHelper {...descriptionProps}>{description}</FormFieldHelper>
+      )}
+      <div className={inputContainer}>
+        {props.startAddon && (
+          <div
+            className={startAddon}
+            ref={(el) => {
+              if (el) {
+                ref.current?.style.setProperty(
+                  '--start-addon-width',
+                  `${el.offsetWidth}px`,
+                );
+              }
+            }}
+          >
+            {props.startAddon}
+          </div>
         )}
-        {isInvalid && (
-          <FormFieldHelper {...errorMessageProps}>
-            {validationErrors.join(' ')}
-          </FormFieldHelper>
+
+        <input
+          {...mergeProps(inputProps, focusProps, hoverProps)}
+          onChange={handleOnChange}
+          ref={ref}
+          className={input}
+          data-focused={isFocused || undefined}
+          data-disabled={props.disabled || undefined}
+          data-hovered={isHovered || undefined}
+          data-focus-visible={isFocusVisible || undefined}
+          data-invalid={validation.isInvalid || undefined}
+          data-positive={props.isPositive || undefined}
+          data-has-start-addon={!!props.startAddon || undefined}
+          data-has-end-addon={!!props.endAddon || undefined}
+        />
+
+        {props.endAddon && (
+          <div
+            className={endAddon}
+            ref={(el) => {
+              if (el) {
+                ref.current?.style.setProperty(
+                  '--end-addon-width',
+                  `${el.offsetWidth}px`,
+                );
+              }
+            }}
+          >
+            {props.endAddon}
+          </div>
         )}
       </div>
-    );
-  },
-);
+
+      {props.description && !validation.isInvalid && (
+        <FormFieldHelper
+          {...descriptionProps}
+          intent={props.isPositive ? 'positive' : 'info'}
+        >
+          {props.description}
+        </FormFieldHelper>
+      )}
+      {validation.isInvalid && (
+        <FormFieldHelper {...errorMessageProps} intent="negative">
+          {errorMessage}
+        </FormFieldHelper>
+      )}
+    </div>
+  );
+}
+
+export const TextField = forwardRef(TextFieldBase);

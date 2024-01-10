@@ -1,11 +1,11 @@
-import { SystemIcon } from '@components/Icon';
-import { Label } from '@components/Typography/Label/Label';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import React from 'react';
+import { AlertCircleOutline } from '../../../Icon/System/SystemIcon';
+import { Label } from '../../../Typography/Label/Label';
 import { headerClass, infoClass, tagClass } from './FormFieldHeader.css';
 
 export interface IFormFieldHeaderProps {
-  label: string;
+  label: ReactNode;
   tag?: string;
   info?: string;
   htmlFor?: string;
@@ -24,7 +24,7 @@ export const FormFieldHeader: FC<IFormFieldHeaderProps> = ({
       {Boolean(info) && (
         <span className={infoClass}>
           {info}
-          <SystemIcon.AlertCircleOutline size="sm" />
+          <AlertCircleOutline size="sm" />
         </span>
       )}
     </div>
