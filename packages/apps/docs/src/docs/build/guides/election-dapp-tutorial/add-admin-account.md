@@ -2,7 +2,7 @@
 title: "Add an administrator account"
 description: "Create an administrative account for the election application to control access to specific functions."
 menu: "Workshop: Election application"
-label: "Add an administrator account"
+label: "Add an admin account"
 order: 3
 layout: full
 tags: [pact, smart contract, typescript, tutorial]
