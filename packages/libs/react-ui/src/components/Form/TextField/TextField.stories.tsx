@@ -1,10 +1,11 @@
-import { onLayer2, withContentWidth } from '@storyDecorators';
 import type { Meta, StoryObj } from '@storybook/react';
 import React, { useState } from 'react';
+import { onLayer2, withContentWidth } from '../../../storyDecorators';
 import { Button } from '../../Button/NewButton';
 import { Plus } from '../../Icon/System/SystemIcon';
 import { Account } from '../../Icon/System/svgs/Account';
 import { Text } from '../../Typography/Text/Text';
+import { CopyButton } from '../ActionButtons/CopyButton';
 import { Form } from '../Form';
 import { TextField } from '../TextField';
 import type { ITextFieldProps } from './TextField';
@@ -373,6 +374,19 @@ export const CustomErrorMessage: Story = {
         />
         <Button type="submit">Submit</Button>
       </Form>
+    );
+  },
+};
+
+export const WithCopyButton: Story = {
+  name: 'With copy button',
+  render: () => {
+    return (
+      <TextField
+        id="with-copy-button"
+        label="With copy button"
+        endAddon={<CopyButton inputId="with-copy-button" />}
+      />
     );
   },
 };
