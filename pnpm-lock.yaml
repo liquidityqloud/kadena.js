@@ -49,15 +49,6 @@ importers:
         specifier: ^1.4.0
         version: 1.5.7
 
-  packages/apps/dev-wallet/lib-kadena-wallet:
-    dependencies:
-      '@kadena/client':
-        specifier: workspace:*
-        version: link:../../../libs/client
-      peerjs:
-        specifier: ^1.5.0
-        version: 1.5.1
-
   packages/apps/dev-wallet/wallet:
     dependencies:
       '@hookform/resolvers':
@@ -69,9 +60,6 @@ importers:
       '@kadena/cryptography-utils':
         specifier: workspace:*
         version: link:../../../libs/cryptography-utils
-      '@kadena/lib-kadena-wallet':
-        specifier: workspace:*
-        version: link:../lib-kadena-wallet
       '@kadena/pactjs':
         specifier: workspace:*
         version: link:../../../libs/pactjs
@@ -4251,54 +4239,6 @@ packages:
       statuses: 2.0.1
     dev: true
 
-  /@cbor-extract/cbor-extract-darwin-arm64@2.1.1:
-    resolution: {integrity: sha512-blVBy5MXz6m36Vx0DfLd7PChOQKEs8lK2bD1WJn/vVgG4FXZiZmZb2GECHFvVPA5T7OnODd9xZiL3nMCv6QUhA==}
-    cpu: [arm64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@cbor-extract/cbor-extract-darwin-x64@2.1.1:
-    resolution: {integrity: sha512-h6KFOzqk8jXTvkOftyRIWGrd7sKQzQv2jVdTL9nKSf3D2drCvQB/LHUxAOpPXo3pv2clDtKs3xnHalpEh3rDsw==}
-    cpu: [x64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@cbor-extract/cbor-extract-linux-arm64@2.1.1:
-    resolution: {integrity: sha512-SxAaRcYf8S0QHaMc7gvRSiTSr7nUYMqbUdErBEu+HYA4Q6UNydx1VwFE68hGcp1qvxcy9yT5U7gA+a5XikfwSQ==}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@cbor-extract/cbor-extract-linux-arm@2.1.1:
-    resolution: {integrity: sha512-ds0uikdcIGUjPyraV4oJqyVE5gl/qYBpa/Wnh6l6xLE2lj/hwnjT2XcZCChdXwW/YFZ1LUHs6waoYN8PmK0nKQ==}
-    cpu: [arm]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@cbor-extract/cbor-extract-linux-x64@2.1.1:
-    resolution: {integrity: sha512-GVK+8fNIE9lJQHAlhOROYiI0Yd4bAZ4u++C2ZjlkS3YmO6hi+FUxe6Dqm+OKWTcMpL/l71N6CQAmaRcb4zyJuA==}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@cbor-extract/cbor-extract-win32-x64@2.1.1:
-    resolution: {integrity: sha512-2Niq1C41dCRIDeD8LddiH+mxGlO7HJ612Ll3D/E73ZWBmycued+8ghTr/Ho3CMOWPUEr08XtyBMVXAjqF+TcKw==}
-    cpu: [x64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@changesets/apply-release-plan@6.1.4:
     resolution: {integrity: sha512-FMpKF1fRlJyCZVYHr3CbinpZZ+6MwvOtWUuO8uo+svcATEoc1zRDcj23pAurJ2TZ/uVz1wFHH6K3NlACy0PLew==}
     dependencies:
@@ -6796,11 +6736,6 @@ packages:
     dependencies:
       '@motionone/dom': 10.16.2
       tslib: 2.6.2
-    dev: false
-
-  /@msgpack/msgpack@2.8.0:
-    resolution: {integrity: sha512-h9u4u/jiIRKbq25PM+zymTyW6bhTzELvOoUd+AvYriWOAKpLGnIamaET3pnHYoI5iYphAHBI4ayx0MehR+VVPQ==}
-    engines: {node: '>= 10'}
     dev: false
 
   /@mswjs/cookies@1.0.0:
@@ -15689,28 +15624,6 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /cbor-extract@2.1.1:
-    resolution: {integrity: sha512-1UX977+L+zOJHsp0mWFG13GLwO6ucKgSmSW6JTl8B9GUvACvHeIVpFqhU92299Z6PfD09aTXDell5p+lp1rUFA==}
-    hasBin: true
-    requiresBuild: true
-    dependencies:
-      node-gyp-build-optional-packages: 5.0.3
-    optionalDependencies:
-      '@cbor-extract/cbor-extract-darwin-arm64': 2.1.1
-      '@cbor-extract/cbor-extract-darwin-x64': 2.1.1
-      '@cbor-extract/cbor-extract-linux-arm': 2.1.1
-      '@cbor-extract/cbor-extract-linux-arm64': 2.1.1
-      '@cbor-extract/cbor-extract-linux-x64': 2.1.1
-      '@cbor-extract/cbor-extract-win32-x64': 2.1.1
-    dev: false
-    optional: true
-
-  /cbor-x@1.5.6:
-    resolution: {integrity: sha512-+TXdnDNdr8JH5GQRoAhjdT/5s5N+b71s2Nz8DpDRyuWx0uzMj8JTR3AqqMTBO/1HtUBHZpmK1enD2ViXFx0Nug==}
-    optionalDependencies:
-      cbor-extract: 2.1.1
-    dev: false
-
   /cbor@8.1.0:
     resolution: {integrity: sha512-DwGjNW9omn6EwP70aXsn7FQJx5kO12tX0bZkaTjzdVFM6/7nhA4t0EENocKGx6D2Bch9PE2KzCUf5SceBdeijg==}
     engines: {node: '>=12.19'}
@@ -23411,13 +23324,6 @@ packages:
     engines: {node: '>= 6.13.0'}
     dev: false
 
-  /node-gyp-build-optional-packages@5.0.3:
-    resolution: {integrity: sha512-k75jcVzk5wnnc/FMxsf4udAoTEUv2jY3ycfdSd3yWu6Cnd1oee6/CfZJApyscA4FJOmdoixWwiwOyf16RzD5JA==}
-    hasBin: true
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /node-gyp-build@4.7.1:
     resolution: {integrity: sha512-wTSrZ+8lsRRa3I3H8Xr65dLWSgCvY2l4AOnaeKdPA9TB/WYMPaTcrzf3rXvFoVvjKNVnu0CcWSx54qq9GKRUYg==}
     hasBin: true
@@ -24244,22 +24150,6 @@ packages:
       duplexify: 3.7.1
       through2: 2.0.5
     dev: true
-
-  /peerjs-js-binarypack@2.1.0:
-    resolution: {integrity: sha512-YIwCC+pTzp3Bi8jPI9UFKO0t0SLo6xALnHkiNt/iUFmUUZG0fEEmEyFKvjsDKweiFitzHRyhuh6NvyJZ4nNxMg==}
-    engines: {node: '>= 14.0.0'}
-    dev: false
-
-  /peerjs@1.5.1:
-    resolution: {integrity: sha512-jpE2jPZ99vuSVHBAhn7bVCPKlwsPgcAqgcDKEZR4L7SaMaEL6wqD/G6VI0+awmhuEFcUN2ttusly+sKQGD64hQ==}
-    engines: {node: '>= 14'}
-    dependencies:
-      '@msgpack/msgpack': 2.8.0
-      cbor-x: 1.5.6
-      eventemitter3: 4.0.7
-      peerjs-js-binarypack: 2.1.0
-      webrtc-adapter: 8.2.3
-    dev: false
 
   /pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
@@ -26261,10 +26151,6 @@ packages:
   /scule@1.1.1:
     resolution: {integrity: sha512-sHtm/SsIK9BUBI3EFT/Gnp9VoKfY6QLvlkvAE6YK7454IF8FSgJEAnJpVdSC7K5/pjI5NfxhzBLW2JAfYA/shQ==}
     dev: true
-
-  /sdp@3.2.0:
-    resolution: {integrity: sha512-d7wDPgDV3DDiqulJjKiV2865wKsJ34YI+NDREbm+FySq6WuKOikwyNQcm+doLAZ1O6ltdO0SeKle2xMpN3Brgw==}
-    dev: false
 
   /seedrandom@3.0.5:
     resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==}
@@ -29471,13 +29357,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-
-  /webrtc-adapter@8.2.3:
-    resolution: {integrity: sha512-gnmRz++suzmvxtp3ehQts6s2JtAGPuDPjA1F3a9ckNpG1kYdYuHWYpazoAnL9FS5/B21tKlhkorbdCXat0+4xQ==}
-    engines: {node: '>=6.0.0', npm: '>=3.10.0'}
-    dependencies:
-      sdp: 3.2.0
-    dev: false
 
   /websocket@1.0.34:
     resolution: {integrity: sha512-PRDso2sGwF6kM75QykIesBijKSVceR6jL2G8NGYyq2XrItNC2P5/qL5XeR056GhA+Ly7JMFvJb9I312mJfmqnQ==}
