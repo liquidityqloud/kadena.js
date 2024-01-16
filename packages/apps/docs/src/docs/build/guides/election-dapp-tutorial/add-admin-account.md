@@ -1,6 +1,6 @@
 ---
 title: "Add an administrator account"
-description: "Create an administrative account for the election application to control access to specific functions."
+description: "Create an administrative account for the election application to control access to the election application and specific functions."
 menu: "Workshop: Election application"
 label: "Add administrator account"
 order: 3
