@@ -14,6 +14,7 @@
     "Danillo Felixdaal <danillo@kadena.io>"
   ],
   "exports": {
+    ".": "./lib/index.js",
     "./chainweaver": "./lib/chainweaver/index.js"
   },
   "main": "./lib/index.js",
