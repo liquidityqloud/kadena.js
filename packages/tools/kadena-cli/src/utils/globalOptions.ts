@@ -499,6 +499,36 @@ export const globalOptions = {
       return keyMessage;
     },
   }),
+  // Manual
+  manual: createOption({
+    key: 'manual' as const,
+    prompt: function (previousQuestions: Record<string, unknown>, args: Record<string, unknown>, isOptional: boolean): boolean {
+      if(previousQuestions.fromWallet === true) {
+        return false;
+      }
+
+      if(JSON.stringify(args) === '{}') return false;
+
+      return true;
+    },
+    validation: z.boolean(),
+    option: new Option('-m, --manual', 'Account setup'),
+  }),
+  // From Wallet
+  fromWallet: createOption({
+    key: 'accountFromWallet' as const,
+    validation: z.boolean(),
+    option: new Option('-fw, --from-wallet', 'Account setup'),
+    prompt: function (previousQuestions: Record<string, unknown>, args: Record<string, unknown>, isOptional: boolean): boolean {
+      if(previousQuestions.manual === true) {
+        return false;
+      }
+
+      if(JSON.stringify(args) === '{}') return false;
+
+      return true;
+    }
+  }),
 } as const;
 
 export type GlobalOptions = typeof globalOptions;
