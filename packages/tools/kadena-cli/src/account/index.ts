@@ -5,6 +5,7 @@ import { getBalanceCommand } from './commands/accountGetBalance.js';
 import { transferCreateCommand } from './commands/accountTransferCreate.js';
 import { fundCommand } from './commands/accountFund.js';
 import { addAccountManualCommand } from './commands/accountAddManual.js';
+import { addAccountWalletCommand } from './commands/accountAddWallet.js';
 
 
 const SUBCOMMAND_ROOT: 'account' = 'account';
@@ -16,6 +17,7 @@ export function accountCommandFactory(program: Command, version: string): void {
 
 
   addAccountManualCommand(accountProgram, version);
+  addAccountWalletCommand(accountProgram, version);
   createAccountCommand(accountProgram, version);
   fundCommand(accountProgram, version);
   accountDetailsCommand(accountProgram, version);
