@@ -1,5 +1,12 @@
 # @kadena/hd-wallet
 
+## 0.3.0
+
+### Minor Changes
+
+- c756c1425: Removed dependency to @kadena/client and refactor sign functions to
+  sign hash
+
 ## 0.2.0
 
 ### Minor Changes

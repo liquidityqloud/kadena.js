@@ -1,5 +1,32 @@
 # @kadena/graph-client
 
+## 0.1.9
+
+### Patch Changes
+
+- 0f7ab9c72: Performance improvements and bug fixes
+- 825815ad6: Query viewer added on each page
+- 5918a5771: Added event queries and views.
+- 599911748: Fixed JSON length errors and improved error messaging
+- b758209a4: Added non-fungible account overview pages
+- 6fee70d58: Package updates. Made files and folders lower kebab-case. Replaced
+  custom client code with client utils functions.
+- Updated dependencies [940891ac6]
+- Updated dependencies [a4b469d49]
+- Updated dependencies [803668c21]
+- Updated dependencies [b8f8fb55e]
+- Updated dependencies [bc071367c]
+- Updated dependencies [13e2cc6a3]
+- Updated dependencies [fc92629b5]
+- Updated dependencies [5516b2467]
+- Updated dependencies [0dc7a52b7]
+- Updated dependencies [5e63b76a6]
+- Updated dependencies [db097d39b]
+- Updated dependencies [90227d348]
+- Updated dependencies [e10423358]
+- Updated dependencies [9d3aab7c8]
+  - @kadena/react-ui@0.7.0
+
 ## 0.1.8
 
 ### Patch Changes

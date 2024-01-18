@@ -4,6 +4,40 @@
 
 ### Patch Changes
 
+- bb1122f2c: Implemented marmalade simulation scripts
+- 1c53d1c5e: Added non-fungible related account queries
+- ac5af36f9: Added multi-chain support for marmalade deployment
+- e8cbef81c: Restructure folders in devnet to isolate deployment files and
+  simulation files; also separate into coin and marmalade. Refactoring of files
+- 0f7ab9c72: Performance improvements and bug fixes
+- 3317745be: Increased effienciency and reduced complecity on the transfer
+  cross-chain field search
+- f10af8ca2: Added indexes on the most used columns.
+- 64dd84ee0: Changed the return type for getBalance to string.
+- 035e9d8b5: Script to deploy marmalade in devnet
+- 879a9680e: Made graph a releasable package
+- 5918a5771: Added event queries and views.
+- 599911748: Fixed JSON length errors and improved error messaging
+- 87bc25dfc: Added prisma query logging
+- 592dd9c64: Expose tracing data in the extension
+- c60047685: Added different funding types: in the initial funding operations,
+  we'll cycle through all transfer types so we can get a diversified testing
+  sample as soon as possible
+- 6fee70d58: Package updates. Made files and folders lower kebab-case. Replaced
+  custom client code with client utils functions.
+- 3d5148859: Fix minor issues related to signing and finding balance
+- Updated dependencies [64dd84ee0]
+- Updated dependencies [bbeef98a6]
+- Updated dependencies [0540b213b]
+- Updated dependencies [3fc8ac86d]
+- Updated dependencies [72f472e58]
+  - @kadena/client-utils@0.3.0
+  - @kadena/client@1.8.0
+
+## 1.0.7
+
+### Patch Changes
+
 - 4afeb196d: refactor create principal
 - c2b60a1a1: Added descriptions to objects, fields and queries
 - ca1834ecb: Complexity calculations and limitations added
