@@ -19,7 +19,7 @@ Setup Chainweaver, Kadena’s official wallet and developer workbench.
 
 ## Step-by-step instructions
 
-1. Go to [kadena.io/chainweaver](https://kadena.io/chainweaver-tos/)
+1. Go to [kadena.io/chainweaver](https://kadena.io/chainweaver)
 2. Agree to the terms of service and click "Create new wallet"
 3. Follow the 3-step process for creating a new wallet:
 
