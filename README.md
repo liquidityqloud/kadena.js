@@ -56,7 +56,7 @@ Special thanks to the wonderful people who have contributed to this project:
 [![Contributors][66]][65]
 
 [1]: https://docs.kadena.io
-[2]: https://discord.io/kadena
+[2]: https://discord.gg/kadena
 [3]: https://stackoverflow.com/questions/tagged/kadena
 [4]: ./CONTRIBUTING.md
 [5]:
